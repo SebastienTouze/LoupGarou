@@ -1,0 +1,36 @@
+security:
+    encoders:
+        "FOS\UserBundle\Model\UserInterface": sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # Firewall pour les pages de connexion, inscription, et récupération de mot de passe
+        login:
+            pattern:   ^/(login$|register|resetting|public)
+            anonymous: true                           # On autorise les anonymes sur les pages login/enregistrement/reset passe
+
+        # Firewall principal pour le reste du site
+        main:
+            pattern: ^/
+            form_login:                      # Méthode d'authentification
+                provider: fos_userbundle     # On lit l'authentification au provider définit plus haut
+                remember_me: true            # On active la possibilité du "Se souvenir de moi" (désactivé par défaut)
+            remember_me:
+                key:         %secret%        # On définit la clé pour le remember_me (%secret% est un parametre de parameters.ini)
+            anonymous:       false           # Anonymes refusés
+            logout:          true            # On autorise la déconnexion manuelle (désactivé par défaut)
+
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

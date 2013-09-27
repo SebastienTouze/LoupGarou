@@ -1,0 +1,34 @@
+{% extends "OryzoneBoilerplateBundle::html5.html.twig" %}
+
+{% block head_title %}
+Il parrait qu'il y aurait des loups sur le campus (il parrait)...
+{% endblock head_title %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
+{% endblock head_css %}
+
+
+{% block body_container_main %}
+
+<div id="formulaireLogin" class= "span4 offset3">
+<form action="{{ path('fos_user_security_check') }}" method="post" class="well form-vertical">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    <label required="required" for="login">{{ 'security.login.username'|trans({}, 'LGUserBundle') }}</label>
+    <input required="required" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="login" /><br />
+
+    <label for="password">{{ 'security.login.password'|trans({}, 'LGUserBundle') }}</label>
+    <input required="required" type="password" id="password" name="_password" placeholder="Mot de passe" /><br />
+
+    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <label for="remember_me" style="display: inline;">{{ 'security.login.remember_me'|trans({}, 'LGUserBundle') }}</label>
+
+    <input class="btn btn-primary btn-large" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" style="display: block;"/>
+    <a class="btn btn-primary btn-large" id="_submit" name="_submit" href="{{ path('LGUserBundle_publicinfo') }}" style="display: block;">Informations publiques</a>
+</form>
+</div>
+
+{% endblock body_container_main %}

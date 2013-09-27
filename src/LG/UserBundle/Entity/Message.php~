@@ -1,0 +1,42 @@
+<?php
+
+namespace LG\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * LG\UserBundle\Entity\Message
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Message
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="LG\UserBundle\Entity\User")
+     */
+    private $Emetteur;
+
+    /**
+     * @var dateTime $date
+     *
+     * @ORM\Column(name="date", type="dateTime")
+     */
+    private $date;
+
+    /**
+     * @var string $message
+     *
+     * @ORM\Column(name="message", type="text")
+     */
+    private $message;
+}

@@ -1,0 +1,46 @@
+/*style_nuit.css définition des styles personnaliés pour le loup garou spécifiques à la nuit
+ces styles sont appliqués après style.css*/
+
+.cadre, #formulaireLogin
+{
+	background-color: rgba(54, 74, 96, 0.65);
+	color: white;
+	border-color: #444455;
+}
+
+body
+{
+	background-image:url("../img/fond_nuit.jpg");
+}
+
+.nav {
+	border:3px solid #444455;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4x;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.navbar-inner {
+  background-color: rgb(3, 30, 51);
+  background-image: -ms-linear-gradient(top, rgb(40, 82, 107), rgb(3, 30, 51));
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(40, 82, 107)), to(rgb(3, 30, 51)));
+  background-image: -webkit-linear-gradient(top, rgb(40, 82, 107), rgb(3, 30, 51));
+  background-image: -o-linear-gradient(top, rgb(40, 82, 107), rgb(3, 30, 51));
+  background-image: linear-gradient(top, rgb(40, 82, 107), rgb(3, 30, 51));
+  background-image: -moz-linear-gradient(top, rgb(40, 82, 107), rgb(3, 30, 51));
+}
+
+.navbar .divider-vertical {
+	background-color: #444455;
+}
+
+#dead {
+    color: rgb(180, 70, 50);
+    font-size: 160%;
+	font-family: Lycanthrope, Helvetica, Arial, sans-serif;
+}
+
+.mort {
+    color: rgb(180, 70, 50);
+}

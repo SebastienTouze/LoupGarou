@@ -1,0 +1,117 @@
+<?php
+
+namespace LG\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * LG\UserBundle\Entity\VoteLG
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class VoteLG
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="LG\UserBundle\Entity\User")
+     */
+    private $votant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="LG\UserBundle\Entity\User")
+     */
+    private $voteMange;
+
+    /**
+     * @var date $dateVote
+     *
+     * @ORM\Column(name="dateVote", type="date")
+     */
+    private $dateVote;
+
+    /**
+     * @var date $dateVote
+     *
+     * @ORM\Column(name="type", type="integer")
+     */
+     private $type;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dateVote
+     *
+     * @param date $dateVote
+     */
+    public function setDateVote($dateVote)
+    {
+        $this->dateVote = $dateVote;
+    }
+
+    /**
+     * Get dateVote
+     *
+     * @return date 
+     */
+    public function getDateVote()
+    {
+        return $this->dateVote;
+    }
+
+    /**
+     * Set votant
+     *
+     * @param LG\UserBundle\Entity\User $votant
+     */
+    public function setVotant(\LG\UserBundle\Entity\User $votant)
+    {
+        $this->votant = $votant;
+    }
+
+    /**
+     * Get votant
+     *
+     * @return LG\UserBundle\Entity\User 
+     */
+    public function getVotant()
+    {
+        return $this->votant;
+    }
+
+    /**
+     * Set voteMange
+     *
+     * @param LG\UserBundle\Entity\User $voteMange
+     */
+    public function setVoteMange(\LG\UserBundle\Entity\User $voteMange)
+    {
+        $this->voteMange = $voteMange;
+    }
+
+    /**
+     * Get voteMange
+     *
+     * @return LG\UserBundle\Entity\User 
+     */
+    public function getVoteMange()
+    {
+        return $this->voteMange;
+    }
+}
