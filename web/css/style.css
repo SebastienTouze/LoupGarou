@@ -158,3 +158,9 @@ hr {
 	font-family: Lycanthrope, Helvetica, Arial, sans-serif;
 	font-size : 120%;
 }
+
+.footer {
+font-size: 10px;
+text-align: center;
+color: grey;
+}
