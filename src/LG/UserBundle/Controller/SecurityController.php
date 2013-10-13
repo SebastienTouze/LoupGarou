@@ -10,15 +10,18 @@
 namespace LG\UserBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class SecurityController extends ContainerAware
+use FOS\UserBundle\Controller\SecurityController as BaseSecurityController;
+
+class SecurityController extends BaseSecurityController
 {
-    public function loginAction()
+    public function loginAction(Request $request)
     {
     
     //*******          Gestion du login          *******
-        $request = $this->container->get('request');
+//        $request = $this->container->get('request');
         /* @var $request \Symfony\Component\HttpFoundation\Request */
         $session = $request->getSession();
         /* @var $session \Symfony\Component\HttpFoundation\Session */
@@ -40,39 +43,16 @@ class SecurityController extends ContainerAware
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
 
-        $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
-        
-    /******* Gestion de l'enregistrement (génération du formulaire, traitement dans le FOSUB registercontroler) *******/
-
-        $form = $this->container->get('fos_user.registration.form');
-        $formHandler = $this->container->get('fos_user.registration.form.handler');
-        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-
-        $process = $formHandler->process($confirmationEnabled);
-        if ($process) {
-            $user = $form->getData();
-
-            if ($confirmationEnabled) {
-                $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-                $route = 'enregistrement_partie2';
-            } else {
-                $this->authenticateUser($user);
-                $route = 'enregistrement_partie2';
-            }
-
-            $this->setFlash('fos_user_success', 'registration.flash.user_created');
-            $url = $this->container->get('router')->generate($route);
-
-            return new RedirectResponse($url);
-            
-        }
+        $csrfToken = $this->container->has('form.csrf_provider')
+            ? $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate')
+            : null;
 
             return $this->container->get('templating')->renderResponse('FOSUserBundle:Security:login.html.'.$this->container->getParameter('fos_user.template.engine'), array(
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token' => $csrfToken,
-            'form' => $form->createView(),
-            'theme' => $this->container->getParameter('fos_user.template.theme'),
+/*            'form' => $form->createView(),
+            'theme' => $this->container->getParameter('fos_user.template.theme'),*/
         ));
     }
 
