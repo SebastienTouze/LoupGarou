@@ -8,7 +8,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
-{% if parametres.jour == "jour" %}
+{% if parameters.jour == "jour" %}
     <link rel="stylesheet" href="{{ asset('css/style_jour.css') }}" type="text/css" />
 {% else %}
     <link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
@@ -25,7 +25,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
                 <li><a href="#">Hello {{ user.username }} ! </a></li>
                 <li><a href="#">Tu es un(e) : {{ user.role.nom }}</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="#">{{ parametres.jour | capitalize }}</a></li>
+                <li><a href="#">{{ parameters.jour | capitalize }}</a></li>
                 <li><a>Maire actuel : {{ maire | raw }}</a></li>
                 <li class="divider-vertical"></li>
                 <li><a href="logout">Se deconnecter</a></li>
@@ -38,10 +38,10 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <!-- div row pour l'affichages des joueurs morts et viants -->
 <div class="row">
 
-<div id="joueursVivants" class= "span4 offset2 cadre">
+<div id="alivePlayers" class= "span4 offset2 cadre">
 <p>Joueurs vivants :
 <ul>
-{% for joueur in joueursVivants %}
+{% for joueur in alivePlayers %}
 <li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a></li>
 {% endfor %}
 </ul>
@@ -49,10 +49,10 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 </div>
 
 
-<div id="joueursMorts" class= "span4 offset2 cadre">
+<div id="deadPlayers" class= "span4 offset2 cadre">
 <p>Joueurs morts :
 <ul>
-    {% for joueur in joueursMorts %}
+    {% for joueur in deadPlayers %}
         <li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a> ce joueur était un {{ joueur.role.nom }}</li>
     {% endfor %}
 </ul>
@@ -76,9 +76,9 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     
 <!-- Vote des villageois -->
     <div id="voteJour" class= "span4 offset2 cadre">
-	{% if parametres.jour == "jour" %}
-    {% if votesEffectueesAujourdhui[1] %}
-        <p>Designation d'un condamné : <br/>Tu as déjà voté contre {{ votesEffectueesAujourdhui[1] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parametres.heureNuit }}h. </p>
+	{% if parameters.jour == "jour" %}
+    {% if votesCastedToday[1] %}
+        <p>Designation d'un condamné : <br/>Tu as déjà voté contre {{ votesCastedToday[1] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parameters.heureNuit }}h. </p>
     {% else %}
 		<p>Designation d'un condamné :</p>
 	{% endif %}
@@ -93,15 +93,15 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
         <input type="submit" />
     </form>
     {% else %}
-    Pas de vote pour l'instant le jour n'est pas levé ! <br />Tu poura choisir la personne contre laquelle tu veux voter dès demain matin ({{ parametres.heureJour }}h).
+    Pas de vote pour l'instant le jour n'est pas levé ! <br />Tu poura choisir la personne contre laquelle tu veux voter dès demain matin ({{ parameters.heureJour }}h).
     {% endif %}
     </div>
 
 <!-- Élection du maire -->
     <div id="voteMaire" class= "span4 offset2 cadre">
-    {% if (parametres.jour == "jour" and maire != 'pas de maire') %}
-    {% if votesEffectueesAujourdhui[3] %}
-        <p>Élection du Maire : <br/>Tu as déjà voté pour {{ votesEffectueesAujourdhui[3] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parametres.heureNuit }}h. </p>
+    {% if (parameters.jour == "jour" and maire != 'pas de maire') %}
+    {% if votesCastedToday[3] %}
+        <p>Élection du Maire : <br/>Tu as déjà voté pour {{ votesCastedToday[3] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parameters.heureNuit }}h. </p>
     {% else %}
         <p>Élection du Maire :</p>
     {% endif %}
@@ -121,10 +121,10 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     </div>
 
 <!-- vote des loups -->
-    {% if (user.role.id == 2 and parametres.jour == "nuit") %}
+    {% if (user.role.id == 2 and parameters.jour == "nuit") %}
         <div id="voteNuit" class= "span4 offset2 cadre">
-        {% if votesEffectueesAujourdhui[2] %}
-            <p>Le festin : <br/>Tu as déjà voté contre {{ votesEffectueesAujourdhui[2] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parametres.heureNuit }}h. </p>
+        {% if votesCastedToday[2] %}
+            <p>Le festin : <br/>Tu as déjà voté contre {{ votesCastedToday[2] }} aujourd'hui, tu peux changer d'avis et modifier ce vote jusqu'à {{ parameters.heureNuit }}h. </p>
 		{% else %}
 			<p>Le festin :</p>
         {% endif %}
@@ -141,7 +141,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
         </div>
     {% elseif user.role.id == 2 %}
     <div id="voteNuit" class= "span4 offset2 cadre">
-        <p>Le festin :<br/>En tant que loup, la nuit tombée tu pourra dévorer un villageois. Le formulaire sera disponible dès la nuit tombée (vers {{ parametres.heureNuit }}h). </p>
+        <p>Le festin :<br/>En tant que loup, la nuit tombée tu pourra dévorer un villageois. Le formulaire sera disponible dès la nuit tombée (vers {{ parameters.heureNuit }}h). </p>
     </div>
     {% endif %}
 
@@ -172,12 +172,12 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 	</div>
 	<div style="height:500px;overflow:auto;">
     <p>
-    {% for vote in votesVillageois %}
-        {% if vote.votant == "*" %}
+    {% for vote in villagersVotes %}
+        {% if vote.votant == "date" %}
             ***** Le {{ vote.pour }} *****<br />
-        {% elseif vote.votant == "x" %}
+        {% elseif vote.votant == "wWDead" %}
             <span class="mort">{{ vote.pour }} est mort dévoré. </span><br />
-        {% elseif vote.votant == "+" %}
+        {% elseif vote.votant == "burnedDead" %}
             <span class="mort">{{ vote.pour }} est mort ce jour pour la communauté. </span><br />
         {% else %}
             {{ vote.votant }} vote contre {{ vote.pour }}<br />
@@ -191,7 +191,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     <p>Election du Maire :</p>
     <div style="height:500px;overflow:auto;">
     <p>
-    {% for vote in votesMaire %}
+    {% for vote in mayorVotes %}
         {% if vote.votant == "*" %}
             ***** Élection du {{ vote.pour }} *****<br />
         {% else %}
@@ -207,7 +207,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
         <p>Election de la victime a croquer :</p>
         <div style="height:500px;overflow:auto;">
         <p>
-        {% for vote in votesMaire %}
+        {% for vote in wWVotes %}
             {% if vote.votant == "*" %}
                 ***** Festin du {{ vote.pour }} *****<br />
             {% else %}
