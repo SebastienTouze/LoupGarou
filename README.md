@@ -9,7 +9,12 @@ TODO
 Installation
 ------------
 
-TODO
+TODO: this is uncomplete
+
+* Create a MySQL database and user, 
+* add the database connection informations to the app/config/parameters.ini (create it using the parameters.ini.dist blank file), 
+* initialize the database, (TODO)
+* check that the apache use have write access to app/log/* and app/cache/*
 
 Licence
 -------
