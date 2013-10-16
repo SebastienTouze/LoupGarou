@@ -1,7 +1,5 @@
-LGUserBundle_homepage:
-    pattern:  /
-    defaults: { _controller: LGUserBundle:Default:index }
-
 LGUserBundle_publicinfo:
-    pattern:  /public
-    defaults: { _controller: LGUserBundle:Unconnected:index }
+    pattern:  /{visibility}
+    defaults: { _controller: LGUserBundle:Default:index, visibility: private}
+    requirements:
+        visibility: public|private

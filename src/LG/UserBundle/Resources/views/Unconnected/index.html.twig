@@ -8,7 +8,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
-{% if parametres.jour == "jour" %}
+{% if parameters.jour == "jour" %}
     <link rel="stylesheet" href="{{ asset('css/style_jour.css') }}" type="text/css" />
 {% else %}
     <link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
@@ -24,7 +24,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
             <ul class="nav">
                 <li><a href="#">Hello Anonyme ! </a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="#">{{ parametres.jour | capitalize }}</a></li>
+                <li><a href="#">{{ parameters.jour | capitalize }}</a></li>
                 <li><a>Maire actuel : {{ maire | raw }}</a></li>
                 <li class="divider-vertical"></li>
                 <li><a href="{{ path('LGUserBundle_homepage' )}}">Se connecter pour interagir</a></li>
@@ -40,7 +40,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <div id="joueursVivants" class= "span4 offset2 cadre">
 <p>Joueurs vivants :
 <ul>
-{% for joueur in joueursVivants %}
+{% for joueur in alivePlayers %}
 <li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a></li>
 {% endfor %}
 </ul>
@@ -51,7 +51,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <div id="joueursMorts" class= "span4 offset2 cadre">
 <p>Joueurs morts :
 <ul>
-    {% for joueur in joueursMorts %}
+    {% for joueur in deadPlayers %}
         <li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a> ce joueur était un {{ joueur.role.nom }}</li>
     {% endfor %}
 </ul>
@@ -78,7 +78,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 	</div>
 	<div style="height:500px;overflow:auto;">
     <p>
-    {% for vote in votesVillageois %}
+    {% for vote in villagersVotes %}
         {% if vote.votant == "*" %}
             ***** Le {{ vote.pour }} *****<br />
         {% elseif vote.votant == "x" %}
@@ -93,11 +93,11 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     </div>
 	</div>
     
-    <div id="logVotesMaire" class= "span4 offset2 cadre">
+    <div id="logmayorVotes" class= "span4 offset2 cadre">
     <p>Election du Maire :</p>
     <div style="height:500px;overflow:auto;">
     <p>
-    {% for vote in votesMaire %}
+    {% for vote in mayorVotes %}
         {% if vote.votant == "*" %}
             ***** Élection du {{ vote.pour }} *****<br />
         {% else %}

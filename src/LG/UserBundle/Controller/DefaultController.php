@@ -12,7 +12,7 @@ use LG\UserBundle\Entity\User;
 class DefaultController extends Controller
 {
     
-    public function indexAction()
+    public function indexAction($visibility)
     {
         //Récupération de l'utilisateur en cours, des repositories et initialisation des valeurs
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -21,7 +21,8 @@ class DefaultController extends Controller
         $dbParameters = $em->getRepository('LGUserBundle:Parametres')->find(1);
         $users = $em->getRepository('LGUserBundle:User')->findAll();
         $votes = $em->getRepository('LGUserBundle:Vote')->findBy(array(), array('dateVote' => 'DESC'));
-        $votesUserToday = $em->getRepository('LGUserBundle:Vote')->findBy(array('votant' => $user->getId(), 'jour' => $dbParameters->getJour() ));
+        if($visibility == "private") 
+            $votesUserToday = $em->getRepository('LGUserBundle:Vote')->findBy(array('votant' => $user->getId(), 'jour' => $dbParameters->getJour() ));
 
         $votesCastedToday = array(1 => false, 2 => false, 3 => false);
         
@@ -34,8 +35,9 @@ class DefaultController extends Controller
         $dbParameters = $this->dayNightSwicher($dbParameters, $em);
         $em->flush();
 
-        foreach($votesUserToday as $vote)
-            {$votesCastedToday[$vote->getType()] = $vote->getVotePour();}
+        if($visibility == "private") 
+            foreach($votesUserToday as $vote)
+                {$votesCastedToday[$vote->getType()] = $vote->getVotePour();}
         
         
         // Récupération des joueurs et génération des listes
@@ -70,68 +72,66 @@ class DefaultController extends Controller
         
         
         
-        
-        //Formulaire pour le vote des vilageois
-        $voteAgainst = new Vote;
-        $formVoteVillage = $this->createFormBuilder($voteAgainst)
-                        ->add('votePour', 'choice', array('choices' => $listvotesPlayers,
-            'multiple' => false, ))
-                        ->add('type', 'hidden', array('data' => 1, ))
-                        ->getForm();
-        
-        
-        //Formulaire pour le vote des loups
-        $voteWW = new Vote;
-        $formVoteWolfs = $this->createFormBuilder($voteWW)
-                        ->add('votePour', 'choice', array('choices' => $listvotesPlayersWW,
-            'multiple' => false, ))
-                        ->add('type', 'hidden', array('data' => '2'))
-                        ->getForm();
-        
-        //Formulaire pour le vote d'élection du maire
-        $voteM = new Vote;
-        $formMayorVote = $this->createFormBuilder($voteM)
-                        ->add('votePour', 'choice', array('choices' => $alivePlayers,
-            'multiple' => false, ))
-                        ->add('type', 'hidden', array('data' => '3'))
-                        ->getForm();
-        
-        //Traitement des formulaires s'il l'un d'entre eux a été remplis
-        $formInfoHandler = new VoterHandler($formVoteVillage, $this->get('request'), $em, $user);
-        if($formInfoHandler->process())
+        if($visibility == "private")
         {
-            return $this->render('LGUserBundle:Default:confirmation.html.twig', array('parameters' => $parameter));
-        }
-        else 
-        {
-            $formInfoHandler = new VoterHandler($formVoteWolfs, $this->get('request'), $em, $user);
+            //Formulaire pour le vote des vilageois
+            $voteAgainst = new Vote;
+            $formVillageVote = $this->createFormBuilder($voteAgainst)
+                            ->add('votePour', 'choice', array('choices' => $listvotesPlayers,
+                'multiple' => false, ))
+                            ->add('type', 'hidden', array('data' => 1, ))
+                            ->getForm();
+            
+            
+            //Formulaire pour le vote des loups
+            $voteWW = new Vote;
+            $formVoteWolfs = $this->createFormBuilder($voteWW)
+                            ->add('votePour', 'choice', array('choices' => $listvotesPlayersWW,
+                'multiple' => false, ))
+                            ->add('type', 'hidden', array('data' => '2'))
+                            ->getForm();
+            
+            //Formulaire pour le vote d'élection du maire
+            $voteM = new Vote;
+            $formMayorVote = $this->createFormBuilder($voteM)
+                            ->add('votePour', 'choice', array('choices' => $alivePlayers,
+                'multiple' => false, ))
+                            ->add('type', 'hidden', array('data' => '3'))
+                            ->getForm();
+            
+            //Traitement des formulaires s'il l'un d'entre eux a été remplis
+            $formInfoHandler = new VoterHandler($formVillageVote, $this->get('request'), $em, $user);
             if($formInfoHandler->process())
             {
                 return $this->render('LGUserBundle:Default:confirmation.html.twig', array('parameters' => $parameter));
             }
-            else
+            else 
             {
-                $formInfoHandler = new VoterHandler($formMayorVote, $this->get('request'), $em, $user);
+                $formInfoHandler = new VoterHandler($formVoteWolfs, $this->get('request'), $em, $user);
                 if($formInfoHandler->process())
                 {
                     return $this->render('LGUserBundle:Default:confirmation.html.twig', array('parameters' => $parameter));
                 }
+                else
+                {
+                    $formInfoHandler = new VoterHandler($formMayorVote, $this->get('request'), $em, $user);
+                    if($formInfoHandler->process())
+                    {
+                        return $this->render('LGUserBundle:Default:confirmation.html.twig', array('parameters' => $parameter));
+                    }
+                }
             }
+            
+            //Envoyer un message : formulaire et gestion du formulaire
+            $message = new Message;
+            $formMessage = $this->createFormBuilder($message)
+                            ->add('message', 'textarea')
+                            ->getForm();
+            $formMessageHandler = new MessageHandler($formMessage, $this->get('request'), $em, $user);
+            $formMessageHandler->process();
         }
-        
-        
-        
-        
-        //Envoyer un message : formulaire et gestion du formulaire
-        $message = new Message;
-        $formMessage = $this->createFormBuilder($message)
-                        ->add('message', 'textarea')
-                        ->getForm();
-        $formMessageHandler = new MessageHandler($formMessage, $this->get('request'), $em, $user);
-        $formMessageHandler->process();
         //Récupération des messages : 
         $messages = $em->getRepository('LGUserBundle:Message')->findBy(array(), array('date' => 'DESC'));
-        
 
         
         //Récupération des votes par ordre anté-chronologique
@@ -189,15 +189,23 @@ class DefaultController extends Controller
             $vote = $userRepository->find($vote['id']);
         }
         
-        return $this->render('LGUserBundle:Default:index.html.twig', 
-                            array('user' => $user, 'deadPlayers' => $deadPlayers, 'alivePlayers' => $alivePlayers,
-                             'parameters' => $parameter, 'formJour' => $formVoteVillage->createView(),
-                             'formNuit' => $formVoteWolfs->createView(), 'formMaire' => $formMayorVote->createView(), 
-                             'villagersVotes' => $villagersVotes, 'mayorVotes' => $mayorVotes, 'wWVotes' => $wWVotes, 
-                             'votesCastedToday' => $votesCastedToday, 
-                             'formMessage' => $formMessage->createView(), 'messages' => $messages, 'maire' => $mayor, 
-                             'votesParPersonneVillage' => $arraySynthesisVillageVotes, 
-                             'votesParPersonneMaire' => $arraySynthesisMayorVotes, ));
+        if($visibility == "private") 
+            return $this->render('LGUserBundle:Default:index.html.twig', 
+                                array('user' => $user, 'deadPlayers' => $deadPlayers, 'alivePlayers' => $alivePlayers,
+                                 'parameters' => $parameter, 'formJour' => $formVillageVote->createView(),
+                                 'formNuit' => $formVoteWolfs->createView(), 'formMaire' => $formMayorVote->createView(), 
+                                 'villagersVotes' => $villagersVotes, 'mayorVotes' => $mayorVotes, 'wWVotes' => $wWVotes, 
+                                 'votesCastedToday' => $votesCastedToday, 
+                                 'formMessage' => $formMessage->createView(), 'messages' => $messages, 'maire' => $mayor, 
+                                 'votesParPersonneVillage' => $arraySynthesisVillageVotes, 
+                                 'votesParPersonneMaire' => $arraySynthesisMayorVotes, ));
+        return $this->render('LGUserBundle:Unconnected:index.html.twig', 
+                                array('deadPlayers' => $deadPlayers, 'alivePlayers' => $alivePlayers,
+                                 'parameters' => $parameter, 
+                                 'villagersVotes' => $villagersVotes, 'mayorVotes' => $mayorVotes,  
+                                 'votesCastedToday' => $votesCastedToday, 'messages' => $messages, 'maire' => $mayor, 
+                                 'votesParPersonneVillage' => $arraySynthesisVillageVotes, 
+                                 'votesParPersonneMaire' => $arraySynthesisMayorVotes, ));
     }
     
     

@@ -82,7 +82,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     {% else %}
 		<p>Designation d'un condamné :</p>
 	{% endif %}
-    <form action="{{ path('LGUserBundle_homepage') }}" method="post" {{ form_enctype(formJour) }}>
+    <form action="{{ path('LGUserBundle_publicinfo', {'visibility': 'private'}) }}" method="post" {{ form_enctype(formJour) }}>
         {{ form_label(formJour.votePour, 'Sélectionne le joueur contre lequel tu veux voter : ',  { 'attr': {'class': 'big'} }) }}
         {{ form_errors(formJour.votePour) }}
         {{ form_widget(formJour.votePour, {}) }}
@@ -105,7 +105,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
     {% else %}
         <p>Élection du Maire :</p>
     {% endif %}
-    <form action="{{ path('LGUserBundle_homepage') }}" method="post" {{ form_enctype(formJour) }}>
+    <form action="{{ path('LGUserBundle_publicinfo', {'visibility': 'private'}) }}" method="post" {{ form_enctype(formJour) }}>
         {{ form_label(formMaire.votePour, 'Sélectionnes le joueur que tu souhaites comme maire : ',  { 'attr': {'class': 'big'} }) }}
         {{ form_errors(formMaire.votePour) }}
         {{ form_widget(formMaire.votePour, {}) }}
@@ -128,7 +128,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 		{% else %}
 			<p>Le festin :</p>
         {% endif %}
-        <form action="{{ path('LGUserBundle_homepage') }}" method="post" {{ form_enctype(formNuit) }}>
+        <form action="{{ path('LGUserBundle_publicinfo', {'visibility': 'private'}) }}" method="post" {{ form_enctype(formNuit) }}>
             {{ form_label(formNuit.votePour, 'Sélectionnes le joueur que tu souhaites dévorer cette nuit : ',  { 'attr': {'class': 'big'} }) }}
             {{ form_errors(formNuit.votePour) }}
             {{ form_widget(formNuit.votePour, {}) }}
@@ -226,7 +226,7 @@ Il parait qu'il y aurait des loups sur le campus (il parrait)...
 <!-- fin affichage des votes -->
 <div class="row">
     <div id="messageVote" class= "span8 offset2 cadre">
-    <form action="{{ path('LGUserBundle_homepage') }}" method="post" {{ form_enctype(formJour) }}>
+    <form action="{{ path('LGUserBundle_publicinfo', {'visibility': 'private'}) }}" method="post" {{ form_enctype(formJour) }}>
         {{ form_label(formMessage.message, 'Message a envoyer aux autres joueurs : ',  { 'attr': {'class': 'big'} }) }}
         {{ form_errors(formMessage.message) }}
         {{ form_widget(formMessage.message, {}) }}

@@ -27,7 +27,7 @@ Il parrait qu'il y aurait des loups sur le campus (il parrait)...
     <label for="remember_me" style="display: inline;">{{ 'security.login.remember_me'|trans({}, 'LGUserBundle') }}</label>
 
     <input class="btn btn-primary btn-large" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" style="display: block;"/>
-    <a class="btn btn-primary btn-large" id="_submit" name="_submit" href="{{ path('LGUserBundle_publicinfo') }}" style="display: block;">Informations publiques</a>
+    <a class="btn btn-primary btn-large" id="_submit" name="_submit" href="{{ path('LGUserBundle_publicinfo', {'visibility': 'public'}) }}" style="display: block;">Informations publiques</a>
 </form>
 </div>
 
