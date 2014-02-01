@@ -214,23 +214,26 @@ class DefaultController extends Controller
         $currentTime = intval(date("H"));
         if( $dbParameters->getJour() == 0 && ($currentTime > $dbParameters->getHeureJour() && $currentTime < $dbParameters->getHeureNuit() ))
         {
-            
-            $arrayDevoured = $em->getRepository('LGUserBundle:Vote')->findPersoneElue(3, $dbParameters->getJour());
-            
-            $idDevoured = $this->validerVote($arrayDevoured);
-            
-            if($idDevoured)
+        
+            $nbVoters = $em->getRepository('LGUserBundle:Vote')->findNumberVoter(3, $dbParameters->getJour());
+            if($nbVoters > 0)
             {
-                $dead = $em->getRepository('LGUserBundle:User')->find($idDevoured);
-                $dead->setVivant(false);
-                $dead->setMaire(false);
-            
-                $em->persist($dead);
-                $em->flush();
+                $arrayDevoured = $em->getRepository('LGUserBundle:Vote')->findPersoneElue(3, $dbParameters->getJour());
+                
+                $idDevoured = $this->validerVote($arrayDevoured);
+                
+                if($idDevoured)
+                {
+                    $dead = $em->getRepository('LGUserBundle:User')->find($idDevoured);
+                    $dead->setVivant(false);
+                    $dead->setMaire(false);
+                
+                    $em->persist($dead);
+                    $em->flush();
+                }
+                else
+                    {$dbParameters->setErreur(true);}
             }
-            else
-                {$dbParameters->setErreur(true);}
-            
             
             //Passage Nuit->Jour
             $dbParameters->setJour(1);
@@ -279,35 +282,34 @@ class DefaultController extends Controller
     private function validerVote($arrayPeople, $facultativeVote = false) {
     
         $oldNbVotes =  0;
-        $ndEquality = 0;
+        $nbEquality = 0;
         
         foreach($arrayPeople as $villagers)
         {
             if($villagers['nbVotes'] < $oldNbVotes)
                 break;
-            elseif($villagers['nbVotes'] >$oldNbVotes)
-                $oldNbVotes = $villagers['nbVotes'];
-            else 
-                $ndEquality++;
+            elseif($villagers['id'] != 0)
+                $nbEquality++;
         }
-        
-        if($ndEquality <1 && !$facultativeVote)
+
+        if($nbEquality <1 && !$facultativeVote)
         {
-            throw new \Exception('Erreur : pas de votes ! Merci de signaler ce bug à Sébastien Touzé : sebastien.touze@ecl2012.ec-lyon.fr');
+            throw new \Exception('Erreur 01 : pas de votes à valider ! 
+            Si le jeu est au premier jour et qu\'aucun vote n\'a été effectué ce message est normal, merci de mettre à l\'heure les paramètres (passer le paramètre jour/nuit à sa valeur actuelle). 
+            Dans tout autre cas, merci de signaler ce bug à Sébastien Touzé : <a href="mailto:sebastien.touze@ecl2012.ec-lyon.fr"sebastien.touze@ecl2012.ec-lyon.fr</a>');
             return  false;
         }
-        elseif($ndEquality >1)
+        elseif($nbEquality >1)
         {
             //TODO : envois d'un mail
             return false;
         }
-        elseif($ndEquality == 1)
+        elseif($nbEquality == 1)
         {
             $person = $arrayPeople[$ndEquality];
             $idPerson = $person['id'];
             return $idPerson;
         }
-    
     }
     
 }

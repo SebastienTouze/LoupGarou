@@ -22,4 +22,19 @@ class VoteRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+    
+    public function findNumberVoter($voteType, $day)
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        
+        $queryBuilder->select('COUNT(v.votePour) AS nbVotes')
+                     ->from('LGUserBundle:Vote', 'v')
+                     ->where('v.type = :type')
+                        ->setParameter('type', $voteType)
+                     ->andWhere('v.jour = :jour')
+                        ->setParameter('jour', $day)
+                     ->orderBy('nbVotes', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
