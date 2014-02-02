@@ -209,7 +209,7 @@ class DefaultController extends Controller
     }
     
     
-    private function DayNightSwicher($dbParameters, $em) {
+    private function dayNightSwicher($dbParameters, $em) {
         //Alternance Jour/Nuit
         $currentTime = intval(date("H"));
         if( $dbParameters->getJour() == 0 && ($currentTime > $dbParameters->getHeureJour() && $currentTime < $dbParameters->getHeureNuit() ))
@@ -297,7 +297,6 @@ class DefaultController extends Controller
             throw new \Exception('Erreur 01 : pas de votes à valider ! 
             Si le jeu est au premier jour et qu\'aucun vote n\'a été effectué ce message est normal, merci de mettre à l\'heure les paramètres (passer le paramètre jour/nuit à sa valeur actuelle). 
             Dans tout autre cas, merci de signaler ce bug à Sébastien Touzé : <a href="mailto:sebastien.touze@ecl2012.ec-lyon.fr"sebastien.touze@ecl2012.ec-lyon.fr</a>');
-            return  false;
         }
         elseif($nbEquality >1)
         {
