@@ -1,4 +1,4 @@
-# src/BYL/UserBundle/Resources/translations/BYLUserBundle.fr.yml
+# src/LG/UserBundle/Resources/translations/LGUserBundle.fr.yml
 
 "Bad credentials": "adresse e-mail ou mot de passe incorrect"
 
