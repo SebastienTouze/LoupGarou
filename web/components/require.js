@@ -2017,6 +2017,7 @@ var requirejs, require, define;
     //Set up with config info.
     req(cfg);
 }(this));
+
 var components = {
     "packages": [
         {
@@ -2033,7 +2034,7 @@ var components = {
             "exports": "window.Modernizr"
         }
     },
-    "baseUrl": "/components"
+    "baseUrl": "components"
 };
 if (typeof require !== "undefined" && require.config) {
     require.config(components);

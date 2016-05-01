@@ -1,0 +1,21 @@
+{% extends "OryzoneBoilerplateBundle::html5.html.twig" %}
+
+{% block head_title %}
+Il parrait qu'il y aurait des loups sur le campus (il parrait)...
+{% endblock head_title %}
+
+{% block head_css %}
+<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+{% if parametres.jour == "jour" %}
+    <link rel="stylesheet" href="{{ asset('css/style_jour.css') }}" type="text/css" />
+{% else %}
+    <link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
+{% endif %}
+{% endblock head_css %}
+
+
+{% block body_container_main %}
+<div class="confirm_vote cadre"><p>Vote enregistre ! <br /><br/>
+<a href="{{ path('AppBundle_homepage') }}">Clique  ici pour revenir à ta page.</a> </p></div>
+{% endblock body_container_main %}

@@ -1,5 +1,0 @@
-LGUserBundle_publicinfo:
-    pattern:  /{visibility}
-    defaults: { _controller: LGUserBundle:Default:index, visibility: private}
-    requirements:
-        visibility: public|private

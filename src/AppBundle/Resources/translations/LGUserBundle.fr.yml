@@ -1,0 +1,10 @@
+# src/LG/UserBundle/Resources/translations/AppBundle.fr.yml
+
+"Bad credentials": "adresse e-mail ou mot de passe incorrect"
+
+security:
+    login:
+        mail: "Adresse e-mail"
+        remember_me: "Se souvenir de moi"
+        password: "Mot de passe"
+        username: "Nom d'utilisateur"
