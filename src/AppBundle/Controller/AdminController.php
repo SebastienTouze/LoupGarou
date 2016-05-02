@@ -3,7 +3,7 @@
 /*******************************************************************************
  * AdminController class
  * 
- * This Controller is used for all Admin tasks
+ * This Controller is used for all Admin tasks:
  *  - Initialize the database for a new game (initializeAction)
  * 
  * Created by Sébastien Touzé on 2nd May 2016
