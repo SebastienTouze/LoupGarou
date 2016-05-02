@@ -146,14 +146,6 @@ class Parametres
         return $this->temps;
     }
     
-    
-    ////////////////////////////     FONCTIONS PERSONALISÉES       \\\\\\\\\\\\\\\\\\
-    
-    public function jourSuivant() {
-        $this->temps += 1;
-    }
-    
-
     /**
      * Set erreur
      *
@@ -173,4 +165,11 @@ class Parametres
     {
         return $this->erreur;
     }
+    
+    ////////////////////////////     FONCTIONS PERSONALISÉES       \\\\\\\\\\\\\\\\\\
+    
+    public function jourSuivant() {
+        $this->temps += 1;
+    }
+    
 }

@@ -29,7 +29,9 @@ class VoterHandler
         $this->request = $request;
         $this->em      = $em;
         $this->userVotant = $userVotant;
-        $parametres = $em->getRepository('AppBundle:Parametres')->find(1);
+        $parametres = $em->getRepository('AppBundle:Parametres')
+          ->createQueryBuilder('p')->getQuery()
+          ->setMaxResults(1)->getOneOrNullResult();
         $this->jourCourant = $parametres->getTemps();
     }
 
