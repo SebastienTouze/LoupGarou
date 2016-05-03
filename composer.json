@@ -1,5 +1,5 @@
 {
-    "name": "sebastien/loup-garou-up",
+    "name": "sebastien/loup-garou",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -23,7 +23,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "oryzone/boilerplate-bundle": "4.*",
-        "symfony/assetic-bundle": "^2.8"
+        "symfony/assetic-bundle": "^2.8",
+        "twbs/bootstrap": "2.3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
