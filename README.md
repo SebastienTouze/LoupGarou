@@ -30,6 +30,7 @@ $ composer update
 * During the composer update process it will ask you for the database connection information. 
 * Check that your web server has write access to `app/log/*` and `app/cache/*` (this is not required if you use the build-in web server). 
 * Create the database tables with `php app/console doctrine:schema:update -f` command. 
+* Dump all assets using `php app/console assetic:dump --env=prod` (if you are in development mode change 'prod' for 'dev')
 * For testing or development *only*, execute `$ php app/console server:run` then the server will be accessible at [localhost:8000](), For production server go the the address defined in the web server. 
 * Go to to [your_server_adress/initialize](), the database will be initialize with appropriate values and you will be redirected to the public game homepage
 * Application is ready to play !
