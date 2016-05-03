@@ -51,9 +51,9 @@ class Role
     
     /** @var string $pouvoir1desc
      *
-     * @ORM\Column(name="pouvoir1desc", type="string", length=255)
+     * @ORM\Column(name="pouvoir1desc", type="string", length=255, options={"default":""})
      */
-    private $pouvoir1desc;
+    private $pouvoir1desc='';
 
     /**
      * @var boolean $pouvoir2
@@ -64,9 +64,9 @@ class Role
 
     /** @var string $pouvoir2desc
      *
-     * @ORM\Column(name="pouvoir2desc", type="string", length=255)
+     * @ORM\Column(name="pouvoir2desc", type="string", length=255, options={"default":""})
      */
-    private $pouvoir2desc;
+    private $pouvoir2desc='';
 
     /**
      * Get id

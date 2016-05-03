@@ -18,7 +18,9 @@ class DefaultController extends Controller
         $user = $this->container->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         
-        $dbParameters = $em->getRepository('AppBundle:Parametres')->find(1);
+        $dbParameters = $em->getRepository('AppBundle:Parametres')
+          ->createQueryBuilder('p')->getQuery()
+          ->setMaxResults(1)->getOneOrNullResult();
         $users = $em->getRepository('AppBundle:User')->findAll();
         $votes = $em->getRepository('AppBundle:Vote')->findBy(array(), array('dateVote' => 'DESC'));
         
@@ -201,6 +203,7 @@ class DefaultController extends Controller
                                  'formMessage' => $formMessage->createView(), 'messages' => $messages, 'maire' => $mayor, 
                                  'votesParPersonneVillage' => $arraySynthesisVillageVotes, 
                                  'votesParPersonneMaire' => $arraySynthesisMayorVotes, ));
+        else
         return $this->render('AppBundle:Unconnected:index.html.twig', 
                                 array('deadPlayers' => $deadPlayers, 'alivePlayers' => $alivePlayers,
                                  'parameters' => $parameter, 
@@ -307,7 +310,7 @@ class DefaultController extends Controller
         }
         elseif($nbEquality == 1)
         {
-            $person = $arrayPeople[$ndEquality];
+            $person = $arrayPeople[$nbEquality-1];
             $idPerson = $person['id'];
             return $idPerson;
         }

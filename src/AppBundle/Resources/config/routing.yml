@@ -11,3 +11,8 @@ AppBundle_login:
 AppBundle_logout:
     pattern:  /logout
     defaults: { _controller: FOSUserBundle:Security:logout}
+
+AppBundle_initialize:
+    pattern:  /initialize
+    defaults: { _controller: AppBundle:Admin:initialize}
+
