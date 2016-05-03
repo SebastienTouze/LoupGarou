@@ -5,7 +5,9 @@ Il paraît qu'il y a des loups sur le campus (il paraît)...
 {% endblock head_title %}
 
 {% block head_css %}
-<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
+{% stylesheets '%kernel.root_dir%/../vendor/twbs/bootstrap/docs/assets/css/bootstrap.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
 {% endblock head_css %}

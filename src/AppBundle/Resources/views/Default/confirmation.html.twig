@@ -5,7 +5,9 @@ Il parrait qu'il y aurait des loups sur le campus (il parrait)...
 {% endblock head_title %}
 
 {% block head_css %}
-<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" />
+{% stylesheets '%kernel.root_dir%/../vendor/twbs/bootstrap/docs/assets/css/bootstrap.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
 {% if parameters.jour == "jour" %}
     <link rel="stylesheet" href="{{ asset('css/style_jour.css') }}" type="text/css" />
