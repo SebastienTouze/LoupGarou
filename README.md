@@ -26,14 +26,16 @@ $ cd LoupGarou/
 $ composer update
 ```
   * If you don't already have composer installed on your machine go to [http://symfony.com/doc/current/cookbook/composer.html]()
+  * This process usually takes a few minutes to get all required bundles. 
 * During the composer update process it will ask you for the database connection information. 
-* Check that your web server has write access to `app/log/*` and `app/cache/*` (this is not required if you use the build-in web server)
-* For testing or development *only*, execute `$ php app/console server:run` then the server will be accessible at [localhost:8000](). 
+* Check that your web server has write access to `app/log/*` and `app/cache/*` (this is not required if you use the build-in web server). 
+* Create the database tables with `php app/console doctrine:schema:update -f` command. 
+* For testing or development *only*, execute `$ php app/console server:run` then the server will be accessible at [localhost:8000](), For production server go the the address defined in the web server. 
 * Go to to [your_server_adress/initialize](), the database will be initialize with appropriate values and you will be redirected to the public game homepage
 * Application is ready to play !
 
 To start a new game just go to the [your_server_adress/initialize]() address. 
-An access control to this function will be implemented later on, for now be warn that anybody can go there ! 
+An access control to this function will be implemented later on, for now be warn that anybody can go there! 
 
 How to contribute
 ------------------
