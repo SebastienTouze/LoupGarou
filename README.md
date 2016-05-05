@@ -7,10 +7,12 @@ Version Notes
 The current version on thos files is v0.1. 
 This version is under development and cannot be considered as stable or usable in production. 
 In particular be aware that: 
-* database schema may and will evolve from one version to the other with no guaranty on data preservation upgrading from one version to the other
-* Some function are not fully develop, in particular for no there is no easy way to add users (you need to use fosuserbundle console commands and manualy complete some fields)
-* The versino can contain many bugs (if you found one please share it on the Github issue tracker at https://github.com/sebtouze/LoupGarou/issues)
+* database schema may and will evolve from one version to the other with no guaranty on data preservation. Upgrading from one version to the other may erase existing data in previous intallation. 
+* Some function are not fully develop, in particular for now there is no easy way to add users (you need to use fosUserBundle console commands and manualy complete some fields in the database)
+* The version can contain many bugs (if you found one please share it on the Github issue tracker at https://github.com/sebtouze/LoupGarou/issues)
 
+If you consider using the application, please use the master branch with is the most stable one. 
+As I am using Git Flow for this project developement workflow, the development branch contains all the work between 2 versions of the app. 
 
 What is this ? 
 --------------
@@ -42,7 +44,7 @@ $ composer update
 * Check that your web server has write access to `app/log/*` and `app/cache/*` (this is not required if you use the build-in web server). 
 * Create the database tables with `php app/console doctrine:schema:update -f` command. 
 * Dump all assets using `php app/console assetic:dump --env=prod` (if you are in development mode change 'prod' for 'dev')
-* For testing or development *only*, execute `$ php app/console server:run` then the server will be accessible at [localhost:8000](), For production server go the the address defined in the web server. 
+* For testing or development *only*, execute `php app/console server:run` then the server will be accessible at [localhost:8000](), For production server go the the address defined in the web server. 
 * Go to to [your_server_adress/initialize](), the database will be initialize with appropriate values and you will be redirected to the public game homepage
 * Application is ready to play !
 
