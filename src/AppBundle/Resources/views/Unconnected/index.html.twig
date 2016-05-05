@@ -1,0 +1,139 @@
+{% extends "OryzoneBoilerplateBundle::html5.html.twig" %}
+
+{% block head_title %}
+Il paraît qu'il y a des loups sur le campus (il paraît)...
+{% endblock head_title %}
+
+{% block head_css %}
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+{% stylesheets '%kernel.root_dir%/../vendor/twbs/bootstrap/docs/assets/css/bootstrap.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+{% if parameters.jour == "jour" %}
+    <link rel="stylesheet" href="{{ asset('css/style_jour.css') }}" type="text/css" />
+{% else %}
+    <link rel="stylesheet" href="{{ asset('css/style_nuit.css') }}" type="text/css" />
+{% endif %}
+{% endblock head_css %}
+
+{% block body_container_header %}
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a href="index2.html" class="brand"></a>
+            <h1 class="main_title"> Loup Garou <span>Sur le campus</span></h1>
+            <ul class="nav">
+                <li><a href="#">Hello Anonyme ! </a></li>
+                <li class="divider-vertical"></li>
+                <li><a href="#">{{ parameters.jour | capitalize }}</a></li>
+                <li><a>Maire actuel : {{ maire | raw }}</a></li>
+                <li class="divider-vertical"></li>
+                <li><a href="{{ path('AppBundle_login' )}}">Se connecter pour interagir</a></li>
+        </div>
+    </div>
+</div>
+{% endblock body_container_header %}
+
+{% block body_container_main %}
+<!-- div row pour l'affichages des joueurs morts et viants -->
+<div class="row">
+
+<div id="joueursVivants" class= "span4 offset2 cadre">
+<p>Joueurs vivants :
+<ul>
+{% for joueur in alivePlayers %}
+<li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a></li>
+{% endfor %}
+</ul>
+</p>
+</div>
+
+
+<div id="joueursMorts" class= "span4 offset2 cadre">
+<p>Joueurs morts :
+<ul>
+    {% for joueur in deadPlayers %}
+        <li><a href="https://extranet.eclair.ec-lyon.fr/services/annuaire/details.php?id_eleve={{ joueur.idextra }}" target=_blank>{{ joueur.username }}</a> ce joueur était un {{ joueur.role.nom }}</li>
+    {% endfor %}
+</ul>
+</p>
+</div>
+
+</div>
+<!-- fin div pour l'affichage des joueurs -->
+
+<hr />
+<!-- affichage des votes -->
+<div class="row">
+    <div id="logVotesVillageois" class= "span4 offset2 cadre">
+	<p>Designation d'un condamne :</p>
+	<div>
+	<p>
+        Synthèse des votes du jour (en cours): 
+        <ul>
+        {% for personne in votesParPersonneVillage %}
+            <li>{{ personne.nbVotes }} votes pour {% if personne.id == "" %}personne{% else %}{{ personne.id }}{% endif %}</li>
+        {% endfor %}
+        </ul>
+	</p>
+	</div>
+	<div style="height:500px;overflow:auto;">
+    <p>
+    {% for vote in villagersVotes %}
+        {% if vote.votant == "*" %}
+            ***** Le {{ vote.pour }} *****<br />
+        {% elseif vote.votant == "x" %}
+            <span class="mort">{{ vote.pour }} est mort dévoré. </span><br />
+        {% elseif vote.votant == "+" %}
+            <span class="mort">{{ vote.pour }} est mort ce jour pour la communauté. </span><br />
+        {% else %}
+            {{ vote.votant }} vote contre {{ vote.pour }}<br />
+        {% endif %}
+    {% endfor %}
+    </p>
+    </div>
+	</div>
+    
+    <div id="logmayorVotes" class= "span4 offset2 cadre">
+    <p>Election du Maire :</p>
+    <div style="height:500px;overflow:auto;">
+    <p>
+    {% for vote in mayorVotes %}
+        {% if vote.votant == "*" %}
+            ***** Élection du {{ vote.pour }} *****<br />
+        {% else %}
+            {{ vote.votant }} vote pour {{ vote.pour }}<br />
+        {% endif %}
+    {% endfor %}
+    </p>
+    </div>
+    </div>
+</div>
+<!-- fin affichage des votes -->
+
+<hr />
+
+<!-- affichage des messages -->
+<div class="row">
+    <div id="messageVote" class= "span8 offset2 cadre">
+    <p>Messages des joueurs</p>
+    <div style="height:200px;overflow:auto;">
+        {% for message in messages %}
+            Le {{message.date.format('d/m/Y') }}, {{ message.emetteur }} a dit : {{ message.message }}<br />
+        {% endfor %}
+    </div>
+    </div>
+</div>
+<!-- fin affichage des messages -->
+
+
+{% endblock body_container_main %}
+
+{% block body_container_footer %}
+<div class="footer">
+<br />
+Site web développé par Sébastien Touzé, design par Pierre Colomer<br />
+Le code source est disponible sous licence GNU GPL2 sur <a href="https://github.com/sebtouze/LoupGarou">https://github.com/sebtouze/LoupGarou</a>
+</div>
+{% endblock body_container_footer %}
