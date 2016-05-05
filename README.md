@@ -1,6 +1,17 @@
 LoupGarou
 =========
 
+Version Notes
+-------------
+
+The current version on thos files is v0.1. 
+This version is under development and cannot be considered as stable or usable in production. 
+In particular be aware that: 
+* database schema may and will evolve from one version to the other with no guaranty on data preservation upgrading from one version to the other
+* Some function are not fully develop, in particular for no there is no easy way to add users (you need to use fosuserbundle console commands and manualy complete some fields)
+* The versino can contain many bugs (if you found one please share it on the Github issue tracker at https://github.com/sebtouze/LoupGarou/issues)
+
+
 What is this ? 
 --------------
 
